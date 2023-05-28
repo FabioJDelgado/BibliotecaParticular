@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'livro.dart';
 import 'livrocontroller.dart';
+import 'util.dart';
 
 final ValueNotifier<bool> lido = ValueNotifier<bool>(false);
 final listaGeneros = [
@@ -56,7 +57,7 @@ class Formulario extends StatelessWidget {
               inputFormatters: [maskData],
               keyboardType: TextInputType.number,
               controller: lancamento,
-              decoration: const InputDecoration(labelText: 'Lançamento'),
+              decoration: const InputDecoration(labelText: 'Data de Lançamento'),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,30 +95,8 @@ class Formulario extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                if(titulo.text.isEmpty || autor.text.isEmpty || lancamento.text.isEmpty || generoSelecionado.value.isEmpty){
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          'Atenção',
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        ),
-                        content: const Text('É necessário preencher todos os campos!'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Fechar'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                if(titulo.text.isEmpty || autor.text.isEmpty || lancamento.text.isEmpty || generoSelecionado.value.isEmpty || lancamento.text.length < 10){
+                  Utils.mostrarAlert(context, "Atenção", "Preencha todos os campos corretamente!", Colors.red);
                 } else{
                   Livro livro = Livro(
                     id: (LivroController.acao == "editar" ? LivroController.livroSelecionado!.id : LivroController.buscaIdLivro()), 

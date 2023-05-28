@@ -7,6 +7,7 @@ class LivroController{
   static List<Livro> listaLivro = [];
   static Livro? livroSelecionado;
   static String acao = "";
+  static String alerta = "";
 
   static List<Livro> listarLivros() {
     String livrosLS = loadData("livros");
@@ -32,6 +33,7 @@ class LivroController{
     listaLivro.add(livro);
     List<Map<String, dynamic>> listaMapLivro = listaLivro.map((livro) => livro.toJson()).toList();
     saveData("livros", jsonEncode(listaMapLivro));
+    alerta = "cadastrado";
   }
 
   static void editarLivro(Livro livro) {
@@ -41,6 +43,7 @@ class LivroController{
     List<Map<String, dynamic>> listaMapLivro = listaLivro.map((livro) => livro.toJson()).toList();
     saveData("livros", jsonEncode(listaMapLivro));
     acao = "";
+    alerta = "editado";
   }
 
   static void excluirLivro(int id) {
